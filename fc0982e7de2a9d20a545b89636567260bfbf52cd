@@ -1,0 +1,52 @@
+.planning/phases/01-testing-framework/01-VALIDATION.md
+  bc20cd2f74a50cec 1-81
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "fc0982e7de2a9d20a545b89636567260bfbf52cd",
+  "prompts": {
+    "18a208431e8e6c2c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "926a632b-83ab-4e50-87d3-79826540abca",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 127,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/78ab0534cff25849301b4a4921512ba5c331395d4caefa2f6abd8e881c995b4b"
+    },
+    "8862857f0eff82b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc564e85-2ce4-4f6c-8a5d-c2740708a7eb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 297,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/58c80eee9c93401bc2ed82ec88c7fcf829794c44d9c16b98bbfe499d84c55e8f"
+    },
+    "bc20cd2f74a50cec": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a5d13d85-cd65-41ba-8185-01d5d1b95be7",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 81,
+      "total_deletions": 0,
+      "accepted_lines": 81,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/c00b4a628ea90e36c96599a14c1af6217f43bd083f7839cb7ee8e751c87c8207"
+    }
+  }
+}
