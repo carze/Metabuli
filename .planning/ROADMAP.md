@@ -33,7 +33,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. `test/regression_fasta_access.sh` builds the same database twice from the same (unmodified) binary using `--threads 1 --max-ram 1` and exits 0 when `diffIdx`, `info`, and `split` are byte-identical via `cmp -s` — proving the harness itself is deterministic and correct
   3. `metabuli validateDatabase` passes on both builds, confirming k-mer count in `diffIdx` matches entry count in `info`
   4. The script exits non-zero and prints the first differing byte offset when the two builds differ
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 01-01-PLAN.md — Synthetic FASTA corpus and taxonomy data files
+- [ ] 01-02-PLAN.md — Regression harness script (build twice, validate, byte-compare)
 
 ### Phase 2: Build System + Offset Index
 **Goal**: The offset index infrastructure is built, verified correct, and called from the build pipeline — without touching any k-mer extraction code
@@ -77,7 +80,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Testing Framework | 0/TBD | Not started | - |
+| 1. Testing Framework | 0/2 | Not started | - |
 | 2. Build System + Offset Index | 0/TBD | Not started | - |
 | 3. Inner Loop Refactor | 0/TBD | Not started | - |
 | 4. Benchmarking and Validation | 0/TBD | Not started | - |
