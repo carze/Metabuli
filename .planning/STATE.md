@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: planning
 stopped_at: Completed 01-02-PLAN.md (regression harness)
-last_updated: "2026-03-04T19:48:39.499Z"
+last_updated: "2026-03-04T19:58:42.507Z"
 last_activity: 2026-03-04 — Roadmap revised; Testing Framework promoted to Phase 1 (test baseline before implementation); Phase 1 ready to plan
 progress:
   total_phases: 4
