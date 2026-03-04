@@ -32,12 +32,12 @@ printf '%s\n' \
     --threads 1 --max-ram 1
 
 # Validate — confirm each build passes structural integrity checks (REGTEST-03)
-if ! "$BINARY" validateDatabase "$BUILD1"; then
-    echo "FAIL: validateDatabase failed on build1" >&2
+if ! "$BINARY" validatedb "$BUILD1"; then
+    echo "FAIL: validatedb failed on build1" >&2
     exit 1
 fi
-if ! "$BINARY" validateDatabase "$BUILD2"; then
-    echo "FAIL: validateDatabase failed on build2" >&2
+if ! "$BINARY" validatedb "$BUILD2"; then
+    echo "FAIL: validatedb failed on build2" >&2
     exit 1
 fi
 
