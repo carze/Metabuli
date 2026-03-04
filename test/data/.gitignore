@@ -1,0 +1,6 @@
+# Override root .gitignore rules for test fixture data files.
+# The root .gitignore excludes *.tsv and *.dmp (intended for large database/genome dumps),
+# but test/data/ contains small synthetic files that must be committed.
+!*.tsv
+!*.dmp
+!taxonomy/*.dmp
