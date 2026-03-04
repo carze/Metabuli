@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-01-PLAN.md (synthetic test corpus)
-last_updated: "2026-03-04T19:23:08.317Z"
+stopped_at: Completed 01-02-PLAN.md (regression harness)
+last_updated: "2026-03-04T19:48:39.499Z"
 last_activity: 2026-03-04 — Roadmap revised; Testing Framework promoted to Phase 1 (test baseline before implementation); Phase 1 ready to plan
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01 P01 | 3 | 2 tasks | 8 files |
+| Phase 01 P02 | 45 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,8 @@ Recent decisions affecting current work:
 - [Pre-planning]: Regression harness must be green on sequential baseline BEFORE inner loops are changed
 - [2026-03-04 revision]: Testing Framework moved to Phase 1 — test harness must be green on unmodified code first; that baseline is what correctness is measured against
 - [Phase 01]: test/data/.gitignore added to override root *.tsv/*.dmp exclusions for committed test fixtures
+- [Phase 01]: 50,000 bp pseudo-random sequences required — Prodigal segfaults on short repetitive sequences
+- [Phase 01]: validatedb (not validateDatabase) is the correct metabuli subcommand name
 
 ### Pending Todos
 
@@ -78,6 +81,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T19:23:08.315Z
-Stopped at: Completed 01-01-PLAN.md (synthetic test corpus)
+Last session: 2026-03-04T19:48:39.497Z
+Stopped at: Completed 01-02-PLAN.md (regression harness)
 Resume file: None
