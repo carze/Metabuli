@@ -82,19 +82,19 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUILD-01 | Phase 1 | Pending |
-| BUILD-02 | Phase 1 | Pending |
-| OFFIDX-01 | Phase 1 | Pending |
-| OFFIDX-02 | Phase 1 | Pending |
-| OFFIDX-03 | Phase 1 | Pending |
-| OFFIDX-04 | Phase 1 | Pending |
-| OFFIDX-05 | Phase 1 | Pending |
-| OFFIDX-06 | Phase 1 | Pending |
-| OFFIDX-07 | Phase 1 | Pending |
-| REGTEST-01 | Phase 2 | Pending |
-| REGTEST-02 | Phase 2 | Pending |
-| REGTEST-03 | Phase 2 | Pending |
-| REGTEST-04 | Phase 2 | Pending |
+| REGTEST-01 | Phase 1 | Pending |
+| REGTEST-02 | Phase 1 | Pending |
+| REGTEST-03 | Phase 1 | Pending |
+| REGTEST-04 | Phase 1 | Pending |
+| BUILD-01 | Phase 2 | Pending |
+| BUILD-02 | Phase 2 | Pending |
+| OFFIDX-01 | Phase 2 | Pending |
+| OFFIDX-02 | Phase 2 | Pending |
+| OFFIDX-03 | Phase 2 | Pending |
+| OFFIDX-04 | Phase 2 | Pending |
+| OFFIDX-05 | Phase 2 | Pending |
+| OFFIDX-06 | Phase 2 | Pending |
+| OFFIDX-07 | Phase 2 | Pending |
 | EXTKMER-01 | Phase 3 | Pending |
 | EXTKMER-02 | Phase 3 | Pending |
 | EXTKMER-03 | Phase 3 | Pending |
@@ -114,4 +114,4 @@
 
 ---
 *Requirements defined: 2026-03-04*
-*Last updated: 2026-03-04 after initial definition*
+*Last updated: 2026-03-04 — traceability updated after phase reorder (Testing Framework promoted to Phase 1)*
