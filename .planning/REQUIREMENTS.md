@@ -36,7 +36,7 @@
 
 ### Regression Testing
 
-- [ ] **REGTEST-01**: A mini-corpus of ~3 uncompressed FASTA files, ~4 species, ~10 accessions is committed to `test/data/` — designed so at least one species has sequences across two FASTA files, and `--max-ram 1` forces at least 2 buffer flushes
+- [x] **REGTEST-01**: A mini-corpus of ~3 uncompressed FASTA files, ~4 species, ~10 accessions is committed to `test/data/` — designed so at least one species has sequences across two FASTA files, and `--max-ram 1` forces at least 2 buffer flushes
 - [ ] **REGTEST-02**: A shell script `test/regression_fasta_access.sh` builds the same database with the old (sequential) and new (fseeko) implementations using `--threads 1 --max-ram 1`, then byte-compares `diffIdx`, `info`, and `split` with `cmp -s`
 - [ ] **REGTEST-03**: `metabuli validateDatabase` passes on both the old and new builds, confirming internal consistency (k-mer count in `diffIdx` matches entry count in `info`)
 - [ ] **REGTEST-04**: The regression script exits non-zero and prints the first differing byte offset if any output file differs
@@ -82,7 +82,7 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REGTEST-01 | Phase 1 | Pending |
+| REGTEST-01 | Phase 1 | Complete |
 | REGTEST-02 | Phase 1 | Pending |
 | REGTEST-03 | Phase 1 | Pending |
 | REGTEST-04 | Phase 1 | Pending |

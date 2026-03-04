@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-04T19:01:13.398Z"
+stopped_at: Completed 01-01-PLAN.md (synthetic test corpus)
+last_updated: "2026-03-04T19:23:08.317Z"
 last_activity: 2026-03-04 — Roadmap revised; Testing Framework promoted to Phase 1 (test baseline before implementation); Phase 1 ready to plan
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 2
+  completed_plans: 1
   percent: 0
 ---
 
@@ -50,6 +50,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01 P01 | 3 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,7 @@ Recent decisions affecting current work:
 - [Pre-planning]: Parallel offset index build across files (embarrassingly parallel, dynamic OpenMP scheduling)
 - [Pre-planning]: Regression harness must be green on sequential baseline BEFORE inner loops are changed
 - [2026-03-04 revision]: Testing Framework moved to Phase 1 — test harness must be green on unmodified code first; that baseline is what correctness is measured against
+- [Phase 01]: test/data/.gitignore added to override root *.tsv/*.dmp exclusions for committed test fixtures
 
 ### Pending Todos
 
@@ -76,6 +78,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T19:01:13.396Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-testing-framework/01-CONTEXT.md
+Last session: 2026-03-04T19:23:08.315Z
+Stopped at: Completed 01-01-PLAN.md (synthetic test corpus)
+Resume file: None
