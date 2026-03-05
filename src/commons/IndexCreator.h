@@ -13,6 +13,9 @@
 #ifdef OPENMP
     #include <omp.h>
 #endif
+#include <sys/types.h>   // off_t for fseeko/ftello
+static_assert(sizeof(off_t) == 8,
+    "off_t must be 64-bit — compile with _FILE_OFFSET_BITS=64 on 32-bit Linux");
 
 
 #include "printBinary.h"
@@ -136,6 +139,7 @@ protected:
     std::vector<AccessionBatch> accessionBatches;
     std::unordered_set<TaxID> taxIdSet;
     vector<string> fastaPaths;
+    vector<vector<uint64_t>> fastaOffsets;   // fastaOffsets[fileIdx][ordinal] = byte offset of '>' header character
     size_t numOfFlush=0;
 
     // Database splits
@@ -181,6 +185,8 @@ protected:
     void indexReferenceSequences(size_t bufferSize);
 
     void getAccessionBatches(std::vector<Accession> & observedAccessionsVec, size_t bufferSize);
+
+    void buildFastaOffsetIndex();
 
     void getObservedAccessions(const string & fnaListFileName,
                                vector<Accession> & observedAccessionsVec,
