@@ -30,6 +30,9 @@ add_executable(metabuli
         MetabuliBase.cpp)
 
 mmseqs_setup_derived_target(metabuli)
+target_compile_definitions(metabuli PRIVATE
+    $<$<NOT:$<PLATFORM_ID:Windows>>:_FILE_OFFSET_BITS=64>
+)
 target_link_libraries(metabuli version)
 target_link_libraries(metabuli prodigal)
 target_link_libraries(metabuli fasta_validator)
