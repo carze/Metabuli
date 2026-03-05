@@ -1055,6 +1055,7 @@ bool IndexCreator::extractKmerFromSixFrames(
     {
         ProbabilityMatrix probMatrix(*subMat);
         char *reverseComplement;
+        std::vector<char> seqBuf;
         size_t estimatedKmerCnt = 0;
 #pragma omp for schedule(dynamic, 1)
         for (size_t batchIdx = 0; batchIdx < accessionBatches.size(); batchIdx ++) {
@@ -1083,49 +1084,110 @@ bool IndexCreator::extractKmerFromSixFrames(
             // Process current split if buffer has enough space.
             size_t posToWrite = kmerBuffer.reserveMemory(estimatedKmerCnt);
             if (posToWrite + estimatedKmerCnt < kmerBuffer.bufferSize) {
-                KSeqWrapper* kseq = KSeqFactory(fastaPaths[accessionBatches[batchIdx].whichFasta].c_str());
-                size_t seqCnt = 0;
-                size_t idx = 0;
-                while (kseq->ReadEntry()) {
-                    if (seqCnt == accessionBatches[batchIdx].orders[idx]) {
-                        if (accessionBatches[batchIdx].taxIDs[idx] == 0) {
-                            #pragma omp critical
-                            {
-                                accessionBatches[batchIdx].print();
-                                exit(1);
-                            }
-                        }
-                        const KSeqWrapper::KSeqEntry & e = kseq->entry;
+                uint32_t whichFasta = accessionBatches[batchIdx].whichFasta;
+                const auto& orders  = accessionBatches[batchIdx].orders;
+                const auto& offsets = fastaOffsets[whichFasta];
 
-                        // Mask low complexity regions
-                        char *maskedSeq = nullptr;
+                if (!offsets.empty()) {
+                    // fseeko path (EXTKMER-01, EXTKMER-02, EXTKMER-04)
+
+                    // Check for taxID == 0 before seeking (same guard as existing path)
+                    for (size_t i = 0; i < orders.size(); ++i) {
+                        if (accessionBatches[batchIdx].taxIDs[i] == 0) {
+                            #pragma omp critical
+                            { accessionBatches[batchIdx].print(); exit(1); }
+                        }
+                    }
+
+                    // Sort a permutation of [0..orders.size()-1] by ascending byte offset
+                    // DO NOT sort orders in-place — taxIDs/lengths are parallel arrays
+                    std::vector<size_t> sortedIdx(orders.size());
+                    std::iota(sortedIdx.begin(), sortedIdx.end(), 0);
+                    std::sort(sortedIdx.begin(), sortedIdx.end(), [&](size_t a, size_t b) {
+                        return offsets[orders[a]] < offsets[orders[b]];
+                    });
+
+                    FILE* fp = fopen(fastaPaths[whichFasta].c_str(), "rb");
+                    if (!fp) {
+                        #pragma omp critical
+                        { std::cerr << "ERROR: cannot open " << fastaPaths[whichFasta] << std::endl; }
+                        exit(1);
+                    }
+
+                    for (size_t si : sortedIdx) {
+                        uint32_t ordinal = orders[si];
+                        TaxID    taxID   = accessionBatches[batchIdx].taxIDs[si];
+
+                        off_t curOff  = static_cast<off_t>(offsets[ordinal]);
+                        off_t nextOff = (ordinal + 1 < offsets.size())
+                                        ? static_cast<off_t>(offsets[ordinal + 1])
+                                        : 0;  // last sequence sentinel -> read to EOF
+
+                        size_t seqBytes = readFastaSequence(fp, curOff, nextOff, seqBuf);
+                        seqBuf.push_back('\0');  // null-terminate for downstream consumers
+
+                        // In-place masking (EXTKMER-04) — maskLowComplexityRegions is safe src==dst
                         if (par.maskMode) {
-                            maskedSeq = new char[e.sequence.l + 1]; 
-                            SeqIterator::maskLowComplexityRegions((unsigned char *) e.sequence.s, (unsigned char *) maskedSeq, probMatrix, par.maskProb, subMat);
-                            maskedSeq[e.sequence.l] = '\0';
-                        } else {
-                            maskedSeq = e.sequence.s;
+                            SeqIterator::maskLowComplexityRegions(
+                                (unsigned char*) seqBuf.data(),
+                                (unsigned char*) seqBuf.data(),
+                                probMatrix, par.maskProb, subMat);
                         }
 
                         kmerExtractor->extractKmer_dna2aa(
-                            maskedSeq,
-                            e.sequence.l,
-                            kmerBuffer,
-                            posToWrite,
-                            accessionBatches[batchIdx].taxIDs[idx],
+                            seqBuf.data(), seqBytes,
+                            kmerBuffer, posToWrite,
+                            taxID,
                             accessionBatches[batchIdx].speciesID);
-                            
-                        idx++;
-                        if (par.maskMode) {
-                            delete[] maskedSeq;
-                        }
-                        if (idx == accessionBatches[batchIdx].lengths.size()) {
-                            break;
-                        }
                     }
-                    seqCnt++;
+                    fclose(fp);
+
+                } else {
+                    // Gzip fallback: existing KSeqWrapper sequential scan path (EXTKMER-03)
+                    KSeqWrapper* kseq = KSeqFactory(fastaPaths[whichFasta].c_str());
+                    size_t seqCnt = 0;
+                    size_t idx = 0;
+                    while (kseq->ReadEntry()) {
+                        if (seqCnt == orders[idx]) {
+                            if (accessionBatches[batchIdx].taxIDs[idx] == 0) {
+                                #pragma omp critical
+                                {
+                                    accessionBatches[batchIdx].print();
+                                    exit(1);
+                                }
+                            }
+                            const KSeqWrapper::KSeqEntry & e = kseq->entry;
+
+                            // Mask low complexity regions
+                            char *maskedSeq = nullptr;
+                            if (par.maskMode) {
+                                maskedSeq = new char[e.sequence.l + 1];
+                                SeqIterator::maskLowComplexityRegions((unsigned char *) e.sequence.s, (unsigned char *) maskedSeq, probMatrix, par.maskProb, subMat);
+                                maskedSeq[e.sequence.l] = '\0';
+                            } else {
+                                maskedSeq = e.sequence.s;
+                            }
+
+                            kmerExtractor->extractKmer_dna2aa(
+                                maskedSeq,
+                                e.sequence.l,
+                                kmerBuffer,
+                                posToWrite,
+                                accessionBatches[batchIdx].taxIDs[idx],
+                                accessionBatches[batchIdx].speciesID);
+
+                            idx++;
+                            if (par.maskMode) {
+                                delete[] maskedSeq;
+                            }
+                            if (idx == accessionBatches[batchIdx].lengths.size()) {
+                                break;
+                            }
+                        }
+                        seqCnt++;
+                    }
+                    delete kseq;
                 }
-                delete kseq;
                 __sync_fetch_and_add(&processedBatchCnt, 1);
                 #pragma omp critical
                 {
