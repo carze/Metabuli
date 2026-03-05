@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-01-PLAN.md (extractKmerFromSixFrames fseeko refactor)
-last_updated: "2026-03-05T18:50:01.730Z"
+stopped_at: Completed 03-02-PLAN.md (fillTargetKmerBuffer fseeko refactor)
+last_updated: "2026-03-05T18:56:29.205Z"
 last_activity: 2026-03-04 — Roadmap revised; Testing Framework promoted to Phase 1 (test baseline before implementation); Phase 1 ready to plan
 progress:
   total_phases: 4
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
   percent: 0
 ---
 
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-build-system-offset-index P02 | 2 | 2 tasks | 1 files |
 | Phase 03-inner-loop-refactor P03 | 6 | 1 tasks | 1 files |
 | Phase 03-inner-loop-refactor P01 | 15 | 2 tasks | 1 files |
+| Phase 03-inner-loop-refactor P02 | 4 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,9 @@ Recent decisions affecting current work:
 - [Phase 03-01]: readFastaSequence placed as file-scope static (not class method) so Plan 02 can reuse without header changes
 - [Phase 03-01]: Sort permutation via iota+sort on index vector avoids mutating parallel arrays (orders/taxIDs/lengths)
 - [Phase 03-01]: seqBuf declared inside omp parallel block (per-thread) — zero heap allocation per sequence in fseeko path
+- [Phase 03-02]: seqBuf and rcBuf declared inside omp parallel block (per-thread) for fillTargetKmerBuffer — not in shared() list
+- [Phase 03-02]: Header re-seek for cdsInfoMap key: fseeko back to curOff + fgets after readFastaSequence body load (no data structure changes needed)
+- [Phase 03-02]: Forward Prodigal masking order: getPredictedGenes/getExtendedORFs on raw seqBuf, mask in-place AFTER, extractTargetKmers on masked seqBuf
 
 ### Pending Todos
 
@@ -93,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T18:50:01.728Z
-Stopped at: Completed 03-01-PLAN.md (extractKmerFromSixFrames fseeko refactor)
+Last session: 2026-03-05T18:56:20.924Z
+Stopped at: Completed 03-02-PLAN.md (fillTargetKmerBuffer fseeko refactor)
 Resume file: None

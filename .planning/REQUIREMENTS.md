@@ -29,10 +29,10 @@
 
 ### Inner Loop Refactor — fillTargetKmerBuffer()
 
-- [ ] **FILLTGT-01**: If `fastaOffsets[whichFasta]` is non-empty, the function uses `fseeko()` to seek directly to each required sequence instead of scanning from byte 0
-- [ ] **FILLTGT-02**: Batch orders sorted by byte offset before seeking (same as EXTKMER-02)
-- [ ] **FILLTGT-03**: Gzip fallback to existing sequential path when offset vector is empty (same as EXTKMER-03)
-- [ ] **FILLTGT-04**: Per-thread `seqBuf` vector reused across sequences (same as EXTKMER-04)
+- [x] **FILLTGT-01**: If `fastaOffsets[whichFasta]` is non-empty, the function uses `fseeko()` to seek directly to each required sequence instead of scanning from byte 0
+- [x] **FILLTGT-02**: Batch orders sorted by byte offset before seeking (same as EXTKMER-02)
+- [x] **FILLTGT-03**: Gzip fallback to existing sequential path when offset vector is empty (same as EXTKMER-03)
+- [x] **FILLTGT-04**: Per-thread `seqBuf` vector reused across sequences (same as EXTKMER-04)
 
 ### Regression Testing
 
@@ -99,10 +99,10 @@
 | EXTKMER-02 | Phase 3 | Complete |
 | EXTKMER-03 | Phase 3 | Complete |
 | EXTKMER-04 | Phase 3 | Complete |
-| FILLTGT-01 | Phase 3 | Pending |
-| FILLTGT-02 | Phase 3 | Pending |
-| FILLTGT-03 | Phase 3 | Pending |
-| FILLTGT-04 | Phase 3 | Pending |
+| FILLTGT-01 | Phase 3 | Complete |
+| FILLTGT-02 | Phase 3 | Complete |
+| FILLTGT-03 | Phase 3 | Complete |
+| FILLTGT-04 | Phase 3 | Complete |
 | DOCS-01 | Phase 3 | Complete |
 | BENCH-01 | Phase 4 | Pending |
 | BENCH-02 | Phase 4 | Pending |
