@@ -48,7 +48,7 @@
 
 ### Documentation
 
-- [ ] **DOCS-01**: A note is added to the build documentation explaining that gzip FASTA files are not supported for random access and must be decompressed before building large databases
+- [x] **DOCS-01**: A note is added to the build documentation explaining that gzip FASTA files are not supported for random access and must be decompressed before building large databases
 
 ## v2 Requirements
 
@@ -103,7 +103,7 @@
 | FILLTGT-02 | Phase 3 | Pending |
 | FILLTGT-03 | Phase 3 | Pending |
 | FILLTGT-04 | Phase 3 | Pending |
-| DOCS-01 | Phase 3 | Pending |
+| DOCS-01 | Phase 3 | Complete |
 | BENCH-01 | Phase 4 | Pending |
 | BENCH-02 | Phase 4 | Pending |
 
