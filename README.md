@@ -417,6 +417,9 @@ Three requirements:
 > 2. **NCBI-style accession2taxid** : Sequences with accessions absent here are skipped, and versions are ignored.
 > 3. **NCBI-style taxonomy dump** : `names.dmp`, `nodes.dmp`, and `merged.dmp`. Sequences with tax. IDs absent here are skipped.
 
+>[!NOTE]
+> **gzip FASTA files**: gzip-compressed FASTA files (`.fa.gz`, `.fasta.gz`) are not supported for random access and fall back to a slower sequential scan. For large database builds, decompress your FASTA files with `gunzip` before running `metabuli build`.
+
 #### 1. Prepare NCBI-format taxonomy dump files and accession2taxid
 * Download `accession2taxid` from [here](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/).
 * Download `taxdump` files from [here](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/).
