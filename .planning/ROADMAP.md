@@ -48,7 +48,10 @@ Plans:
   3. Gzip files are silently skipped: their offset vectors are left empty as a fallback sentinel (verified by magic byte detection)
   4. A spot-check validation samples random (fileIdx, ordinal) pairs and confirms each stored offset points to a `>` character
   5. `buildFastaOffsetIndex()` is wired into the build pipeline between `getObservedAccessions()` and `getTaxonomyOfAccessions()`
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 02-01-PLAN.md — CMake _FILE_OFFSET_BITS=64 compile definition, static_assert, fastaOffsets field and method declaration in IndexCreator.h
+- [ ] 02-02-PLAN.md — buildFastaOffsetIndex() implementation (parallel pre-pass, gzip detection, spot-check) and pipeline wiring
 
 ### Phase 3: Inner Loop Refactor
 **Goal**: Both `extractKmerFromSixFrames()` and `fillTargetKmerBuffer()` use fseeko random access with per-batch FILE* handles, the regression harness is green, and gzip fallback is preserved
@@ -81,6 +84,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Testing Framework | 1/2 | In Progress|  |
-| 2. Build System + Offset Index | 0/TBD | Not started | - |
+| 2. Build System + Offset Index | 0/2 | Not started | - |
 | 3. Inner Loop Refactor | 0/TBD | Not started | - |
 | 4. Benchmarking and Validation | 0/TBD | Not started | - |
