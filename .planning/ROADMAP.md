@@ -64,7 +64,11 @@ Plans:
   4. Per-thread `seqBuf` vectors are reused across sequences in both functions, replacing per-sequence `new char[...]` / `delete[]`
   5. The regression script (`test/regression_fasta_access.sh`) exits 0 when comparing the old sequential build against the refactored fseeko build
   6. Build documentation states that gzip FASTA files must be decompressed before building large databases
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 03-01-PLAN.md — readFastaSequence helper + refactor extractKmerFromSixFrames (fseeko path, sort, gzip fallback, seqBuf)
+- [ ] 03-02-PLAN.md — Refactor fillTargetKmerBuffer (fseeko path, Prodigal forward/RC branches, rcBuf, training KSeqWrapper preserved)
+- [ ] 03-03-PLAN.md — README.md gzip FASTA limitation note (DOCS-01)
 
 ### Phase 4: Benchmarking and Validation
 **Goal**: A core_nt-scale (or representative >=100 GB subset) build is run with the new implementation, per-stage timings are recorded, and the results confirm the I/O improvement and identify the next bottleneck
@@ -85,5 +89,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Testing Framework | 1/2 | In Progress|  |
 | 2. Build System + Offset Index | 2/2 | Complete   | 2026-03-05 |
-| 3. Inner Loop Refactor | 0/TBD | Not started | - |
+| 3. Inner Loop Refactor | 0/3 | Not started | - |
 | 4. Benchmarking and Validation | 0/TBD | Not started | - |
