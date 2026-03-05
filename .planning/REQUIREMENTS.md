@@ -7,12 +7,12 @@
 
 ### Build System
 
-- [ ] **BUILD-01**: CMakeLists.txt defines `_FILE_OFFSET_BITS=64` for UNIX targets, ensuring `off_t` is 64-bit on 32-bit Linux
-- [ ] **BUILD-02**: A `static_assert(sizeof(off_t) == 8, ...)` compile-time guard catches misconfigured builds before they produce silently wrong offsets
+- [x] **BUILD-01**: CMakeLists.txt defines `_FILE_OFFSET_BITS=64` for UNIX targets, ensuring `off_t` is 64-bit on 32-bit Linux
+- [x] **BUILD-02**: A `static_assert(sizeof(off_t) == 8, ...)` compile-time guard catches misconfigured builds before they produce silently wrong offsets
 
 ### Offset Index
 
-- [ ] **OFFIDX-01**: `IndexCreator` stores a `vector<vector<uint64_t>> fastaOffsets` field where `fastaOffsets[fileIdx][ordinal]` is the byte offset of the `>` header character for that sequence
+- [x] **OFFIDX-01**: `IndexCreator` stores a `vector<vector<uint64_t>> fastaOffsets` field where `fastaOffsets[fileIdx][ordinal]` is the byte offset of the `>` header character for that sequence
 - [ ] **OFFIDX-02**: `buildFastaOffsetIndex()` scans all FASTA files in a single parallel pre-pass using OpenMP `schedule(dynamic, 1)` across files
 - [ ] **OFFIDX-03**: Files are opened in binary mode (`"rb"`) during the pre-pass to ensure `ftello()` returns physical byte positions (not CRLF-adjusted positions)
 - [ ] **OFFIDX-04**: Offset recording stores the position of `>` (before reading the character, not after), so `fseeko` to that offset positions the file pointer at the start of the header
@@ -86,9 +86,9 @@
 | REGTEST-02 | Phase 1 | Complete |
 | REGTEST-03 | Phase 1 | Complete |
 | REGTEST-04 | Phase 1 | Complete |
-| BUILD-01 | Phase 2 | Pending |
-| BUILD-02 | Phase 2 | Pending |
-| OFFIDX-01 | Phase 2 | Pending |
+| BUILD-01 | Phase 2 | Complete |
+| BUILD-02 | Phase 2 | Complete |
+| OFFIDX-01 | Phase 2 | Complete |
 | OFFIDX-02 | Phase 2 | Pending |
 | OFFIDX-03 | Phase 2 | Pending |
 | OFFIDX-04 | Phase 2 | Pending |
