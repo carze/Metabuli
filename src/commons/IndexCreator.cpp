@@ -484,6 +484,7 @@ void IndexCreator::indexReferenceSequences(size_t bufferSize) {
         getObservedAccessions(fnaListFileName, observedAccessionsVec, accession2index);
     }
     cout << "Number of observed accessions: " << observedAccessionsVec.size() << endl;
+    buildFastaOffsetIndex();
     getTaxonomyOfAccessions(observedAccessionsVec, accession2index, acc2taxidFileName);
     cout << "Taxonomy of accessions is obtained" << endl;
     vector<Accession> accessionsWithTaxonomy;
