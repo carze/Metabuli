@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-03-05T16:39:04.005Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-05T16:43:14.766Z"
 last_activity: 2026-03-04 — Roadmap revised; Testing Framework promoted to Phase 1 (test baseline before implementation); Phase 1 ready to plan
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P01 | 3 | 2 tasks | 8 files |
 | Phase 01 P02 | 45 | 2 tasks | 4 files |
 | Phase 02-build-system-offset-index P01 | 3 | 2 tasks | 2 files |
+| Phase 02-build-system-offset-index P02 | 2 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,7 @@ Recent decisions affecting current work:
 - [Phase 02-build-system-offset-index]: Use target_compile_definitions PRIVATE scope for _FILE_OFFSET_BITS=64 to avoid polluting linked submodule builds
 - [Phase 02-build-system-offset-index]: Generator expression excludes Windows from _FILE_OFFSET_BITS=64 (platform uses _fseeki64/_ftelli64 instead)
 - [Phase 02-build-system-offset-index]: static_assert(sizeof(off_t)==8) placed immediately after sys/types.h include in IndexCreator.h to catch misconfigured 32-bit builds at compile time
+- [Phase 02-build-system-offset-index]: Spot-check validPairs built by iterating all (fileIdx, ordinal) pairs for uniform random coverage; gzip files silently skipped (not error); srand(time(nullptr)) no fixed seed
 
 ### Pending Todos
 
@@ -85,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T16:39:04.003Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-03-05T16:43:14.765Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

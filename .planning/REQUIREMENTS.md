@@ -13,12 +13,12 @@
 ### Offset Index
 
 - [x] **OFFIDX-01**: `IndexCreator` stores a `vector<vector<uint64_t>> fastaOffsets` field where `fastaOffsets[fileIdx][ordinal]` is the byte offset of the `>` header character for that sequence
-- [ ] **OFFIDX-02**: `buildFastaOffsetIndex()` scans all FASTA files in a single parallel pre-pass using OpenMP `schedule(dynamic, 1)` across files
-- [ ] **OFFIDX-03**: Files are opened in binary mode (`"rb"`) during the pre-pass to ensure `ftello()` returns physical byte positions (not CRLF-adjusted positions)
-- [ ] **OFFIDX-04**: Offset recording stores the position of `>` (before reading the character, not after), so `fseeko` to that offset positions the file pointer at the start of the header
-- [ ] **OFFIDX-05**: Gzip files are detected via magic bytes (`0x1F 0x8B`) during the pre-pass; their offset vectors are left empty as a fallback sentinel
-- [ ] **OFFIDX-06**: `buildFastaOffsetIndex()` is called between `getObservedAccessions()` and `getTaxonomyOfAccessions()` in the build pipeline
-- [ ] **OFFIDX-07**: A spot-check validation confirms stored offsets point to `>` characters by sampling a random subset of (fileIdx, ordinal) pairs after the pre-pass
+- [x] **OFFIDX-02**: `buildFastaOffsetIndex()` scans all FASTA files in a single parallel pre-pass using OpenMP `schedule(dynamic, 1)` across files
+- [x] **OFFIDX-03**: Files are opened in binary mode (`"rb"`) during the pre-pass to ensure `ftello()` returns physical byte positions (not CRLF-adjusted positions)
+- [x] **OFFIDX-04**: Offset recording stores the position of `>` (before reading the character, not after), so `fseeko` to that offset positions the file pointer at the start of the header
+- [x] **OFFIDX-05**: Gzip files are detected via magic bytes (`0x1F 0x8B`) during the pre-pass; their offset vectors are left empty as a fallback sentinel
+- [x] **OFFIDX-06**: `buildFastaOffsetIndex()` is called between `getObservedAccessions()` and `getTaxonomyOfAccessions()` in the build pipeline
+- [x] **OFFIDX-07**: A spot-check validation confirms stored offsets point to `>` characters by sampling a random subset of (fileIdx, ordinal) pairs after the pre-pass
 
 ### Inner Loop Refactor — extractKmerFromSixFrames()
 
@@ -89,12 +89,12 @@
 | BUILD-01 | Phase 2 | Complete |
 | BUILD-02 | Phase 2 | Complete |
 | OFFIDX-01 | Phase 2 | Complete |
-| OFFIDX-02 | Phase 2 | Pending |
-| OFFIDX-03 | Phase 2 | Pending |
-| OFFIDX-04 | Phase 2 | Pending |
-| OFFIDX-05 | Phase 2 | Pending |
-| OFFIDX-06 | Phase 2 | Pending |
-| OFFIDX-07 | Phase 2 | Pending |
+| OFFIDX-02 | Phase 2 | Complete |
+| OFFIDX-03 | Phase 2 | Complete |
+| OFFIDX-04 | Phase 2 | Complete |
+| OFFIDX-05 | Phase 2 | Complete |
+| OFFIDX-06 | Phase 2 | Complete |
+| OFFIDX-07 | Phase 2 | Complete |
 | EXTKMER-01 | Phase 3 | Pending |
 | EXTKMER-02 | Phase 3 | Pending |
 | EXTKMER-03 | Phase 3 | Pending |
