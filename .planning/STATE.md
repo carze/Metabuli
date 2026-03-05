@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-inner-loop-refactor 03-03-PLAN.md
-last_updated: "2026-03-05T18:46:40.276Z"
+stopped_at: Completed 03-01-PLAN.md (extractKmerFromSixFrames fseeko refactor)
+last_updated: "2026-03-05T18:50:01.730Z"
 last_activity: 2026-03-04 — Roadmap revised; Testing Framework promoted to Phase 1 (test baseline before implementation); Phase 1 ready to plan
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
   percent: 0
 ---
 
@@ -55,6 +55,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-build-system-offset-index P01 | 3 | 2 tasks | 2 files |
 | Phase 02-build-system-offset-index P02 | 2 | 2 tasks | 1 files |
 | Phase 03-inner-loop-refactor P03 | 6 | 1 tasks | 1 files |
+| Phase 03-inner-loop-refactor P01 | 15 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,9 @@ Recent decisions affecting current work:
 - [Phase 02-build-system-offset-index]: static_assert(sizeof(off_t)==8) placed immediately after sys/types.h include in IndexCreator.h to catch misconfigured 32-bit builds at compile time
 - [Phase 02-build-system-offset-index]: Spot-check validPairs built by iterating all (fileIdx, ordinal) pairs for uniform random coverage; gzip files silently skipped (not error); srand(time(nullptr)) no fixed seed
 - [Phase 03-inner-loop-refactor]: Positioned gzip note as [!NOTE] callout immediately after the [!IMPORTANT] FASTA requirements block; no performance numbers, framed as limitation + workaround
+- [Phase 03-01]: readFastaSequence placed as file-scope static (not class method) so Plan 02 can reuse without header changes
+- [Phase 03-01]: Sort permutation via iota+sort on index vector avoids mutating parallel arrays (orders/taxIDs/lengths)
+- [Phase 03-01]: seqBuf declared inside omp parallel block (per-thread) — zero heap allocation per sequence in fseeko path
 
 ### Pending Todos
 
@@ -89,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T18:46:40.274Z
-Stopped at: Completed 03-inner-loop-refactor 03-03-PLAN.md
+Last session: 2026-03-05T18:50:01.728Z
+Stopped at: Completed 03-01-PLAN.md (extractKmerFromSixFrames fseeko refactor)
 Resume file: None

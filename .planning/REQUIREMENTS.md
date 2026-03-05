@@ -22,10 +22,10 @@
 
 ### Inner Loop Refactor — extractKmerFromSixFrames()
 
-- [ ] **EXTKMER-01**: If `fastaOffsets[whichFasta]` is non-empty, the function uses `fseeko()` to seek directly to each required sequence instead of scanning from byte 0
-- [ ] **EXTKMER-02**: Batch orders are sorted by byte offset before seeking, ensuring forward-only sequential access within each batch (enables OS read-ahead)
-- [ ] **EXTKMER-03**: If `fastaOffsets[whichFasta]` is empty (gzip fallback), the function falls back to the existing KSeqWrapper sequential scan path
-- [ ] **EXTKMER-04**: A per-thread `seqBuf` vector is reused across all sequences in a batch, replacing the per-sequence `maskedSeq = new char[...]` / `delete[]` pattern
+- [x] **EXTKMER-01**: If `fastaOffsets[whichFasta]` is non-empty, the function uses `fseeko()` to seek directly to each required sequence instead of scanning from byte 0
+- [x] **EXTKMER-02**: Batch orders are sorted by byte offset before seeking, ensuring forward-only sequential access within each batch (enables OS read-ahead)
+- [x] **EXTKMER-03**: If `fastaOffsets[whichFasta]` is empty (gzip fallback), the function falls back to the existing KSeqWrapper sequential scan path
+- [x] **EXTKMER-04**: A per-thread `seqBuf` vector is reused across all sequences in a batch, replacing the per-sequence `maskedSeq = new char[...]` / `delete[]` pattern
 
 ### Inner Loop Refactor — fillTargetKmerBuffer()
 
@@ -95,10 +95,10 @@
 | OFFIDX-05 | Phase 2 | Complete |
 | OFFIDX-06 | Phase 2 | Complete |
 | OFFIDX-07 | Phase 2 | Complete |
-| EXTKMER-01 | Phase 3 | Pending |
-| EXTKMER-02 | Phase 3 | Pending |
-| EXTKMER-03 | Phase 3 | Pending |
-| EXTKMER-04 | Phase 3 | Pending |
+| EXTKMER-01 | Phase 3 | Complete |
+| EXTKMER-02 | Phase 3 | Complete |
+| EXTKMER-03 | Phase 3 | Complete |
+| EXTKMER-04 | Phase 3 | Complete |
 | FILLTGT-01 | Phase 3 | Pending |
 | FILLTGT-02 | Phase 3 | Pending |
 | FILLTGT-03 | Phase 3 | Pending |
