@@ -4,6 +4,7 @@
 #include "ProdigalWrapper.h"
 #include <cstdint>
 #include <cstdio>
+#include <numeric>
 #include <unordered_map>
 #include <utility>
 #include "NcbiTaxonomy.cpp"
@@ -998,6 +999,51 @@ void IndexCreator::load_assacc2taxid(const string & mappingFile, unordered_map<s
     map.close();
 }
 
+
+// File-scope static helper: seek to seqOffset, skip FASTA header line, read sequence body
+// bounded by nextOffset (or to EOF if nextOffset == 0), strip newlines into buf.
+// Returns the number of sequence bytes placed in buf (no null terminator).
+// buf is resized to fit; caller must append '\0' if needed.
+static size_t readFastaSequence(FILE* fp,
+                                off_t seqOffset,
+                                off_t nextOffset,
+                                std::vector<char>& buf) {
+    if (fseeko(fp, seqOffset, SEEK_SET) != 0) return 0;
+
+    // Skip header line — loop handles headers longer than 4095 chars
+    char headerBuf[4096];
+    if (!fgets(headerBuf, sizeof(headerBuf), fp)) return 0;
+    while (headerBuf[strlen(headerBuf) - 1] != '\n') {
+        if (!fgets(headerBuf, sizeof(headerBuf), fp)) break;
+    }
+
+    off_t bodyStart = ftello(fp);
+    size_t readLen;
+    if (nextOffset > 0) {
+        if (nextOffset <= bodyStart) return 0;
+        readLen = static_cast<size_t>(nextOffset - bodyStart);
+    } else {
+        // Last sequence: read to EOF
+        if (fseeko(fp, 0, SEEK_END) != 0) return 0;
+        off_t fileEnd = ftello(fp);
+        if (fileEnd <= bodyStart) return 0;
+        readLen = static_cast<size_t>(fileEnd - bodyStart);
+        if (fseeko(fp, bodyStart, SEEK_SET) != 0) return 0;
+    }
+
+    buf.resize(readLen);
+    size_t got = fread(buf.data(), 1, readLen, fp);
+
+    // Strip newlines in-place
+    size_t out = 0;
+    for (size_t i = 0; i < got; ++i) {
+        if (buf[i] != '\n' && buf[i] != '\r') {
+            buf[out++] = buf[i];
+        }
+    }
+    buf.resize(out);
+    return out;
+}
 
 bool IndexCreator::extractKmerFromSixFrames(
     Buffer<Kmer> & kmerBuffer,
