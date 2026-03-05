@@ -566,6 +566,92 @@ void IndexCreator::getObservedAccessions(
     }
 }
 
+void IndexCreator::buildFastaOffsetIndex() {
+    cout << "Building FASTA offset index..." << endl;
+    time_t start = time(nullptr);
+
+#ifdef OPENMP
+    omp_set_num_threads(par.threads);
+#endif
+
+    fastaOffsets.resize(fastaPaths.size());
+
+#ifdef OPENMP
+    #pragma omp parallel for schedule(dynamic, 1)
+#endif
+    for (size_t i = 0; i < fastaPaths.size(); ++i) {
+        FILE* fp = fopen(fastaPaths[i].c_str(), "rb");
+        if (!fp) {
+            continue;
+        }
+
+        // Check for gzip magic bytes (0x1F 0x8B)
+        int b0 = fgetc(fp);
+        int b1 = fgetc(fp);
+        if (b0 == 0x1F && b1 == 0x8B) {
+            fclose(fp);
+            continue;
+        }
+        rewind(fp);
+
+        vector<uint64_t> localOffsets;
+        while (true) {
+            off_t pos = ftello(fp);   // record BEFORE consuming
+            int c = fgetc(fp);
+            if (c == EOF) break;
+            if (c == '>') {
+                localOffsets.push_back(static_cast<uint64_t>(pos));
+            }
+        }
+        fclose(fp);
+        fastaOffsets[i] = std::move(localOffsets);
+    }
+
+    size_t totalSeqs = 0;
+    for (const auto& v : fastaOffsets) totalSeqs += v.size();
+    time_t elapsed = time(nullptr) - start;
+    cout << "FASTA offset index built: " << fastaPaths.size() << " files, "
+         << totalSeqs << " sequences, " << elapsed << " s" << endl;
+
+    // Spot-check validation (OFFIDX-07)
+    vector<pair<size_t, size_t>> validPairs;
+    for (size_t fi = 0; fi < fastaOffsets.size(); ++fi) {
+        for (size_t ord = 0; ord < fastaOffsets[fi].size(); ++ord) {
+            validPairs.emplace_back(fi, ord);
+        }
+    }
+    if (validPairs.empty()) {
+        return;
+    }
+    srand(static_cast<unsigned>(time(nullptr)));
+    size_t checkCount = std::min((size_t)100, validPairs.size());
+    for (size_t check = 0; check < checkCount; ++check) {
+        size_t idx = static_cast<size_t>(rand()) % validPairs.size();
+        size_t fi = validPairs[idx].first;
+        size_t ord = validPairs[idx].second;
+        FILE* fp = fopen(fastaPaths[fi].c_str(), "rb");
+        if (!fp) {
+            cerr << "Spot-check: failed to open " << fastaPaths[fi] << endl;
+            exit(EXIT_FAILURE);
+        }
+        if (fseeko(fp, static_cast<off_t>(fastaOffsets[fi][ord]), SEEK_SET) != 0) {
+            cerr << "Spot-check: fseeko failed for " << fastaPaths[fi]
+                 << " offset " << fastaOffsets[fi][ord] << endl;
+            fclose(fp);
+            exit(EXIT_FAILURE);
+        }
+        int c = fgetc(fp);
+        fclose(fp);
+        if (c != '>') {
+            cerr << "Spot-check FAILED: " << fastaPaths[fi]
+                 << " offset " << fastaOffsets[fi][ord]
+                 << " ordinal " << ord
+                 << " expected '>' but got '" << (char)c << "'" << endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+}
+
 void IndexCreator::getTaxonomyOfAccessions(vector<Accession> & observedAccessionsVec,
                                            const unordered_map<string, size_t> & accession2index,
                                            const string & acc2taxidFileName) {
