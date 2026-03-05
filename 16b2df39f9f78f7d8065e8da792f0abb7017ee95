@@ -1,0 +1,52 @@
+.planning/phases/02-build-system-offset-index/02-CONTEXT.md
+  76041205e596357d 1-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "16b2df39f9f78f7d8065e8da792f0abb7017ee95",
+  "prompts": {
+    "18a208431e8e6c2c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "926a632b-83ab-4e50-87d3-79826540abca",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 127,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/78ab0534cff25849301b4a4921512ba5c331395d4caefa2f6abd8e881c995b4b"
+    },
+    "76041205e596357d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e61cb5fb-7df5-4d0a-9ada-da56d700368d",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 82,
+      "total_deletions": 0,
+      "accepted_lines": 82,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/828dd8aff519a84e6a62868b97325be845628e1805990ed4e1f8f776ebd3569e"
+    },
+    "8862857f0eff82b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc564e85-2ce4-4f6c-8a5d-c2740708a7eb",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 297,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/58c80eee9c93401bc2ed82ec88c7fcf829794c44d9c16b98bbfe499d84c55e8f"
+    }
+  }
+}
