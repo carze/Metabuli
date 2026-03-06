@@ -78,7 +78,11 @@ Plans:
   1. A build of core_nt or a >=100 GB representative subset completes successfully with the new implementation
   2. Per-stage wall-clock times are recorded: offset pre-pass, k-mer extraction, sort, filter, and write per flush cycle
   3. Benchmark results are documented showing build time before and after the I/O fix, with the next bottleneck (sort dominance or otherwise) identified
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 04-01-PLAN.md — Total build wall-clock timer in build.cpp + regression check
+- [ ] 04-02-PLAN.md — Benchmark script, awk log parser, SCALING_ANALYSIS.md Section 8 template
+- [ ] 04-03-PLAN.md — Cloud benchmark run (human checkpoint) + fill Section 8 with actual results
 
 ## Progress
 
@@ -90,4 +94,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Testing Framework | 1/2 | In Progress|  |
 | 2. Build System + Offset Index | 2/2 | Complete   | 2026-03-05 |
 | 3. Inner Loop Refactor | 0/3 | Not started | - |
-| 4. Benchmarking and Validation | 0/TBD | Not started | - |
+| 4. Benchmarking and Validation | 0/3 | Not started | - |
