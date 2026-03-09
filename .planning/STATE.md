@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-01-PLAN.md — build wall-clock timer added to build.cpp
-last_updated: "2026-03-09T12:45:20.525Z"
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-03-09T12:45:45.557Z"
 last_activity: 2026-03-04 — Roadmap revised; Testing Framework promoted to Phase 1 (test baseline before implementation); Phase 1 ready to plan
 progress:
   total_phases: 4
@@ -58,6 +58,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-inner-loop-refactor P01 | 15 | 2 tasks | 1 files |
 | Phase 03-inner-loop-refactor P02 | 4 | 1 tasks | 1 files |
 | Phase 04-benchmarking-and-validation P01 | 2 | 2 tasks | 1 files |
+| Phase 04-benchmarking-and-validation P02 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,9 @@ Recent decisions affecting current work:
 - [Phase 03-02]: Header re-seek for cdsInfoMap key: fseeko back to curOff + fgets after readFastaSequence body load (no data structure changes needed)
 - [Phase 03-02]: Forward Prodigal masking order: getPredictedGenes/getExtendedORFs on raw seqBuf, mask in-place AFTER, extractTargetKmers on masked seqBuf
 - [Phase 04-01]: buildStart timer placed before IndexCreator construction (wraps index-building work only, not CLI parsing); time_t/time(nullptr) used (not chrono) for consistency with IndexCreator.cpp
+- [Phase 04-02]: Log path derived from max-ram parameter (benchmark_ram${MAX_RAM}.log) so single-flush and multi-flush runs produce distinct log files
+- [Phase 04-02]: parse_bench_log.awk uses $NF to extract timing values — robust to varying whitespace in Metabuli output
+- [Phase 04-02]: Section 8 placeholder cells use dash (—) not TBD — visually distinct in markdown tables
 
 ### Pending Todos
 
@@ -99,6 +103,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09T12:45:20.523Z
-Stopped at: Completed 04-01-PLAN.md — build wall-clock timer added to build.cpp
+Last session: 2026-03-09T12:45:45.555Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
