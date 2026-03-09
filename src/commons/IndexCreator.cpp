@@ -1270,7 +1270,7 @@ size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
                 const auto& orders  = accessionBatches[batchIdx].orders;
                 const auto& offsets = fastaOffsets[whichFasta];
 
-                if (false && !offsets.empty()) {
+                if (!offsets.empty()) {
                     // fseeko path (FILLTGT-01, FILLTGT-02, FILLTGT-04)
 
                     // taxID == 0 guard (same as existing path)
@@ -1306,6 +1306,18 @@ size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
 
                         size_t seqBytes = readFastaSequence(fp, curOff, nextOff, seqBuf);
                         seqBuf.push_back('\0');  // null-terminate
+
+                        // DEBUG: log ordinal, offsets, seqBytes to diagnose k-mer count mismatch
+                        #pragma omp critical
+                        {
+                            cerr << "FSEEK batchIdx=" << batchIdx
+                                 << " ordinal=" << ordinal
+                                 << " offsets.size()=" << offsets.size()
+                                 << " curOff=" << curOff
+                                 << " nextOff=" << nextOff
+                                 << " seqBytes=" << seqBytes
+                                 << "\n";
+                        }
 
                         // Extract accession name from header at curOff for cdsInfoMap lookup
                         std::string seqName;
@@ -1472,6 +1484,16 @@ size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
                     size_t idx = 0;
                     while (kseq->ReadEntry()) {
                         if (seqCnt == orders[idx]) {
+                            // DEBUG: log KSeqWrapper match to compare with FSEEK path
+                            #pragma omp critical
+                            {
+                                cerr << "KSEQ  batchIdx=" << batchIdx
+                                     << " ordinal=" << orders[idx]
+                                     << " seqCnt=" << seqCnt
+                                     << " seqLen=" << kseq->entry.sequence.l
+                                     << " name=" << kseq->entry.name.s
+                                     << "\n";
+                            }
                             if (accessionBatches[batchIdx].taxIDs[idx] == 0) {
                                 #pragma omp critical
                                 {
