@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 4 context gathered
-last_updated: "2026-03-06T18:58:30.011Z"
+stopped_at: Completed 04-01-PLAN.md — build wall-clock timer added to build.cpp
+last_updated: "2026-03-09T12:45:20.525Z"
 last_activity: 2026-03-04 — Roadmap revised; Testing Framework promoted to Phase 1 (test baseline before implementation); Phase 1 ready to plan
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 10
+  completed_plans: 9
   percent: 0
 ---
 
@@ -57,6 +57,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-inner-loop-refactor P03 | 6 | 1 tasks | 1 files |
 | Phase 03-inner-loop-refactor P01 | 15 | 2 tasks | 1 files |
 | Phase 03-inner-loop-refactor P02 | 4 | 1 tasks | 1 files |
+| Phase 04-benchmarking-and-validation P01 | 2 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,7 @@ Recent decisions affecting current work:
 - [Phase 03-02]: seqBuf and rcBuf declared inside omp parallel block (per-thread) for fillTargetKmerBuffer — not in shared() list
 - [Phase 03-02]: Header re-seek for cdsInfoMap key: fseeko back to curOff + fgets after readFastaSequence body load (no data structure changes needed)
 - [Phase 03-02]: Forward Prodigal masking order: getPredictedGenes/getExtendedORFs on raw seqBuf, mask in-place AFTER, extractTargetKmers on masked seqBuf
+- [Phase 04-01]: buildStart timer placed before IndexCreator construction (wraps index-building work only, not CLI parsing); time_t/time(nullptr) used (not chrono) for consistency with IndexCreator.cpp
 
 ### Pending Todos
 
@@ -97,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T18:58:30.009Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-benchmarking-and-validation/04-CONTEXT.md
+Last session: 2026-03-09T12:45:20.523Z
+Stopped at: Completed 04-01-PLAN.md — build wall-clock timer added to build.cpp
+Resume file: None

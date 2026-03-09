@@ -43,7 +43,7 @@
 
 ### Benchmarking
 
-- [ ] **BENCH-01**: A build of core_nt (or a ≥100 GB representative subset) is run with the new implementation, recording per-stage wall-clock time: offset pre-pass, k-mer extraction, sort, filter, write per flush cycle
+- [x] **BENCH-01**: A build of core_nt (or a ≥100 GB representative subset) is run with the new implementation, recording per-stage wall-clock time: offset pre-pass, k-mer extraction, sort, filter, write per flush cycle
 - [ ] **BENCH-02**: Benchmark results are documented (build time before and after, per-stage breakdown) to confirm the I/O improvement and identify the next bottleneck
 
 ### Documentation
@@ -104,7 +104,7 @@
 | FILLTGT-03 | Phase 3 | Complete |
 | FILLTGT-04 | Phase 3 | Complete |
 | DOCS-01 | Phase 3 | Complete |
-| BENCH-01 | Phase 4 | Pending |
+| BENCH-01 | Phase 4 | Complete |
 | BENCH-02 | Phase 4 | Pending |
 
 **Coverage:**
