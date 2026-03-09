@@ -91,17 +91,19 @@ int build(int argc, const char **argv, const Command &command){
                                                       taxonomyDir + "/merged.dmp",
                                                       true);
 
+    time_t buildStart = time(nullptr);
     IndexCreator idxCre(par, taxonomy, 2);
     idxCre.createIndex();
-    if (par.accessionLevel == 1) 
+    if (par.accessionLevel == 1)
     {
         taxonomy = idxCre.getTaxonomy();
     }
     taxonomy->writeTaxonomyDB(dbDir + "/taxonomyDB");
-    
-    if (idxCre.getNumOfFlush() == 1) 
+
+    if (idxCre.getNumOfFlush() == 1)
     {
         delete taxonomy;
+        cout << "Build complete in " << (time(nullptr) - buildStart) << " s" << endl;
         cout << "Index creation completed." << endl;
         return 0;
     }
@@ -118,15 +120,16 @@ int build(int argc, const char **argv, const Command &command){
     delete taxonomy;
     cout << "Index creation completed." << endl;
 
-    if (par.validateDb) 
+    if (par.validateDb)
     {
         cout << "Validating the created database..." << endl;
-        if (validateDatabase(dbDir) != 0) 
+        if (validateDatabase(dbDir) != 0)
         {
             cerr << "Database validation failed." << endl;
             return 1;
         }
         cout << "Database validation completed successfully." << endl;
     }
+    cout << "Build complete in " << (time(nullptr) - buildStart) << " s" << endl;
     return 0;
 }
