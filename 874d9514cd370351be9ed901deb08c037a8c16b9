@@ -1,0 +1,40 @@
+scripts/parse_bench_log.awk
+  c1de3a922b785dd9 8-11
+src/commons/IndexCreator.cpp
+  c1de3a922b785dd9 349,351,354-355,358,360-361,366,370,376
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.9",
+  "base_commit_sha": "874d9514cd370351be9ed901deb08c037a8c16b9",
+  "prompts": {
+    "a72126c9a25c1ca9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "92324f10-c296-4499-a75a-c01e30d0abfb",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 9,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9b4b355c159532434d5ffde0b6c629f4d71eb0a1cd6cbd08c4e0a69f3a3d69a1"
+    },
+    "c1de3a922b785dd9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "992d7e81-0132-4795-b8a7-775ed0bf795f",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 16,
+      "total_deletions": 12,
+      "accepted_lines": 14,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/ec0817b56ecdba60134f47364453b4f477892c29b62131eb5f2ffedec6d44beb"
+    }
+  }
+}
