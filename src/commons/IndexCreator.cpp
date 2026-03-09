@@ -346,30 +346,34 @@ void IndexCreator::createIndex() {
         cout << "Buffer initialized" << endl;
 
         // Extract target k-mers
+        time_t start = time(nullptr);
         fillTargetKmerBuffer(kmerBuffer, batchChecker, processedBatchCnt, par);
+        cout << "K-mer extraction : " << time(nullptr) - start << " s" << endl;
 
         // Sort the k-mers
-        time_t start = time(nullptr);
+        start = time(nullptr);
+        cout << "Sort k-mers      : " << flush;
         SORT_PARALLEL(kmerBuffer.buffer, kmerBuffer.buffer + kmerBuffer.startIndexOfReserve,
                       Kmer::compareTargetKmer);
-        time_t sort = time(nullptr);
-        cout << "Reference k-mer sort : " << sort - start << endl;
+        cout << time(nullptr) - start << " s" << endl;
 
-        // Reduce redundancy
+        // Reduce redundancy (filter)
+        start = time(nullptr);
         auto * uniqKmerIdx = new size_t[kmerBuffer.startIndexOfReserve + 1];
         size_t uniqKmerCnt = 0;
         uniqKmerIdxRanges.clear();
         filterKmers<FilterMode::DB_CREATION>(kmerBuffer, uniqKmerIdx, uniqKmerCnt, uniqKmerIdxRanges);
-        time_t reduction = time(nullptr);
+        cout << "Filter k-mers    : " << time(nullptr) - start << " s" << endl;
         cout << "Unique k-mer count   : " << uniqKmerCnt << endl;
-        cout << "Redundancy reduction : " << (double) (reduction - sort) << " s" << endl;
 
         // Write the target files
+        start = time(nullptr);
         if(processedBatchCnt == accessionBatches.size() && numOfFlush == 0 && !isUpdating) {
             writeTargetFilesAndSplits(kmerBuffer, uniqKmerIdx, uniqKmerCnt, uniqKmerIdxRanges);
         } else {
             writeTargetFiles(kmerBuffer, uniqKmerIdx, uniqKmerIdxRanges);
         }
+        cout << "Write k-mers     : " << time(nullptr) - start << " s" << endl;
         delete[] uniqKmerIdx;
     }
 

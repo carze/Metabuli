@@ -5,10 +5,10 @@
 # Extracts per-cycle timings for K-mer extraction, Sort, Filter, and Write stages.
 # Prints min/max/avg for each stage — suitable for SCALING_ANALYSIS.md Section 8.2.
 
-/K-mer extraction/ { extract[++ne] = $NF }
-/Sort k-mers/      { sort_t[++ns]  = $NF }
-/Filter k-mers/    { filter[++nf]  = $NF }
-/Write k-mers/     { write_t[++nw] = $NF }
+/K-mer extraction/ { extract[++ne] = $(NF-1) }
+/Sort k-mers/      { sort_t[++ns]  = $(NF-1) }
+/Filter k-mers/    { filter[++nf]  = $(NF-1) }
+/Write k-mers/     { write_t[++nw] = $(NF-1) }
 
 function stats(arr, n,    i, min, max, sum) {
     if (n == 0) { print "N/A"; return }
