@@ -1092,7 +1092,7 @@ bool IndexCreator::extractKmerFromSixFrames(
                 const auto& orders  = accessionBatches[batchIdx].orders;
                 const auto& offsets = fastaOffsets[whichFasta];
 
-                if (!offsets.empty()) {
+                if (false && !offsets.empty()) {
                     // fseeko path (EXTKMER-01, EXTKMER-02, EXTKMER-04)
 
                     // Check for taxID == 0 before seeking (same guard as existing path)
@@ -1270,7 +1270,7 @@ size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
                 const auto& orders  = accessionBatches[batchIdx].orders;
                 const auto& offsets = fastaOffsets[whichFasta];
 
-                if (!offsets.empty()) {
+                if (false && !offsets.empty()) {
                     // fseeko path (FILLTGT-01, FILLTGT-02, FILLTGT-04)
 
                     // taxID == 0 guard (same as existing path)
