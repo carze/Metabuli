@@ -1055,7 +1055,7 @@ bool IndexCreator::extractKmerFromSixFrames(
     size_t &processedBatchCnt
 ) {
     std::atomic<int> hasOverflow{0};
-    #pragma omp parallel default(none), shared(kmerBuffer, batchChecker, processedBatchCnt, hasOverflow, par, cout)
+    #pragma omp parallel default(none), shared(kmerBuffer, batchChecker, processedBatchCnt, hasOverflow, par, cout, cerr)
     {
         ProbabilityMatrix probMatrix(*subMat);
         char *reverseComplement;
@@ -1215,7 +1215,7 @@ size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
                                           size_t &processedBatchCnt,
                                           const LocalParameters &par) {
     std::atomic<int> hasOverflow{0};
-#pragma omp parallel default(none), shared(kmerBuffer, batchChecker, processedBatchCnt, hasOverflow, par, cout)
+#pragma omp parallel default(none), shared(kmerBuffer, batchChecker, processedBatchCnt, hasOverflow, par, cout, cerr)
     {
         ProbabilityMatrix probMatrix(*subMat);
         SeqIterator seqIterator(par);
