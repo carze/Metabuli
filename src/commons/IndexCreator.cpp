@@ -1092,7 +1092,7 @@ bool IndexCreator::extractKmerFromSixFrames(
                 const auto& orders  = accessionBatches[batchIdx].orders;
                 const auto& offsets = fastaOffsets[whichFasta];
 
-                if (false && !offsets.empty()) {
+                if (!offsets.empty()) {
                     // fseeko path (EXTKMER-01, EXTKMER-02, EXTKMER-04)
 
                     // Check for taxID == 0 before seeking (same guard as existing path)
@@ -1307,15 +1307,25 @@ size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
                         size_t seqBytes = readFastaSequence(fp, curOff, nextOff, seqBuf);
                         seqBuf.push_back('\0');  // null-terminate
 
-                        // DEBUG: log ordinal, offsets, seqBytes to diagnose k-mer count mismatch
+                        // DEBUG: log ordinal, offsets, seqBytes, and first/last 10 bp
                         #pragma omp critical
                         {
+                            std::string preview5, tail5;
+                            if (seqBytes >= 10) {
+                                preview5.assign(seqBuf.data(), 10);
+                                tail5.assign(seqBuf.data() + seqBytes - 10, 10);
+                            } else if (seqBytes > 0) {
+                                preview5.assign(seqBuf.data(), seqBytes);
+                                tail5 = preview5;
+                            }
                             cerr << "FSEEK batchIdx=" << batchIdx
                                  << " ordinal=" << ordinal
                                  << " offsets.size()=" << offsets.size()
                                  << " curOff=" << curOff
                                  << " nextOff=" << nextOff
                                  << " seqBytes=" << seqBytes
+                                 << " head=" << preview5
+                                 << " tail=" << tail5
                                  << "\n";
                         }
 
@@ -1487,11 +1497,23 @@ size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
                             // DEBUG: log KSeqWrapper match to compare with FSEEK path
                             #pragma omp critical
                             {
+                                const char* s = kseq->entry.sequence.s;
+                                size_t sl = kseq->entry.sequence.l;
+                                std::string khead, ktail;
+                                if (sl >= 10) {
+                                    khead.assign(s, 10);
+                                    ktail.assign(s + sl - 10, 10);
+                                } else if (sl > 0) {
+                                    khead.assign(s, sl);
+                                    ktail = khead;
+                                }
                                 cerr << "KSEQ  batchIdx=" << batchIdx
                                      << " ordinal=" << orders[idx]
                                      << " seqCnt=" << seqCnt
-                                     << " seqLen=" << kseq->entry.sequence.l
+                                     << " seqLen=" << sl
                                      << " name=" << kseq->entry.name.s
+                                     << " head=" << khead
+                                     << " tail=" << ktail
                                      << "\n";
                             }
                             if (accessionBatches[batchIdx].taxIDs[idx] == 0) {
