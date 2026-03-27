@@ -1,0 +1,48 @@
+test/data/gt_in_header.fasta
+  c414286eb97b6734 1-9
+test/core_nt_compare.sh
+  c414286eb97b6734 1-310
+test/stress_compare.sh
+  c414286eb97b6734 1-115
+test/generate_stress_data.py
+  c414286eb97b6734 1-112
+src/commons/IndexCreator.cpp
+  c414286eb97b6734 604,609,612,624-654,1228,1232-1239,1253,1724,1728-1735
+test/compare_fseek_vs_kseq.sh
+  c414286eb97b6734 1-156
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "646f987341121b0c44e22fdc3f54b8190a5c420f",
+  "prompts": {
+    "a72126c9a25c1ca9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "92324f10-c296-4499-a75a-c01e30d0abfb",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 9,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9b4b355c159532434d5ffde0b6c629f4d71eb0a1cd6cbd08c4e0a69f3a3d69a1"
+    },
+    "c414286eb97b6734": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d7bcbf0b-962b-4629-9740-76db5873c964",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Cesar Arze <cesar.arze@gmail.com>",
+      "messages": [],
+      "total_additions": 850,
+      "total_deletions": 97,
+      "accepted_lines": 756,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/4419e258585b767ed6e535fe9f39a676c7926993ce12467acbeb2aef84adb18d"
+    }
+  }
+}
