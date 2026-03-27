@@ -601,13 +601,15 @@ void IndexCreator::buildFastaOffsetIndex() {
         rewind(fp);
 
         vector<uint64_t> localOffsets;
+        bool atLineStart = true;  // start of file counts as start of line
         while (true) {
             off_t pos = ftello(fp);   // record BEFORE consuming
             int c = fgetc(fp);
             if (c == EOF) break;
-            if (c == '>') {
+            if (c == '>' && atLineStart) {
                 localOffsets.push_back(static_cast<uint64_t>(pos));
             }
+            atLineStart = (c == '\n');
         }
         fclose(fp);
         fastaOffsets[i] = std::move(localOffsets);
@@ -618,6 +620,37 @@ void IndexCreator::buildFastaOffsetIndex() {
     time_t elapsed = time(nullptr) - start;
     cout << "FASTA offset index built: " << fastaPaths.size() << " files, "
          << totalSeqs << " sequences, " << elapsed << " s" << endl;
+
+    // Cross-validate offset counts against KSeqWrapper sequence counts per file
+    {
+        size_t mismatchCount = 0;
+#ifdef OPENMP
+        #pragma omp parallel for schedule(dynamic, 1) reduction(+:mismatchCount)
+#endif
+        for (size_t i = 0; i < fastaPaths.size(); ++i) {
+            if (fastaOffsets[i].empty()) continue;  // gzip — no offset index
+            KSeqWrapper* kseq = KSeqFactory(fastaPaths[i].c_str());
+            size_t kseqCount = 0;
+            while (kseq->ReadEntry()) { kseqCount++; }
+            delete kseq;
+            if (kseqCount != fastaOffsets[i].size()) {
+                #pragma omp critical
+                {
+                    cerr << "OFFSET_MISMATCH file=" << i
+                         << " path=" << fastaPaths[i]
+                         << " offsets=" << fastaOffsets[i].size()
+                         << " kseq=" << kseqCount << "\n";
+                }
+                mismatchCount++;
+            }
+        }
+        if (mismatchCount > 0) {
+            cerr << "WARNING: " << mismatchCount
+                 << " files have offset/kseq count mismatch!" << endl;
+        } else {
+            cout << "Offset index validated: all files match KSeqWrapper counts" << endl;
+        }
+    }
 
     // Spot-check validation (OFFIDX-07)
     vector<pair<size_t, size_t>> validPairs;
@@ -1192,9 +1225,18 @@ bool IndexCreator::extractKmerFromSixFrames(
                     }
                     delete kseq;
                 }
+                size_t kmersWritten = kmerBuffer.startIndexOfReserve - posToWrite;
                 __sync_fetch_and_add(&processedBatchCnt, 1);
                 #pragma omp critical
                 {
+                    cerr << "BATCH_EXTKMER"
+                         << " batch=" << batchIdx
+                         << " file=" << accessionBatches[batchIdx].whichFasta
+                         << " seqs=" << accessionBatches[batchIdx].orders.size()
+                         << " species=" << accessionBatches[batchIdx].speciesID
+                         << " path=" << (fastaOffsets[accessionBatches[batchIdx].whichFasta].empty() ? "KSEQ" : "FSEEK")
+                         << " kmers=" << kmersWritten
+                         << "\n";
                     cout << processedBatchCnt << " batches processed out of " << accessionBatches.size() << endl;
                         // cout << fastaPaths[accessionBatches[batchIdx].whichFasta] << " processed\n";
                 }
@@ -1208,7 +1250,7 @@ bool IndexCreator::extractKmerFromSixFrames(
 
     // cout << "Before return: " << kmerBuffer.startIndexOfReserve << endl;
     return 0;
-    
+
 }
 size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
                                           std::vector<std::atomic<bool>> & batchChecker,
@@ -1679,9 +1721,18 @@ size_t IndexCreator::fillTargetKmerBuffer(Buffer<Kmer> &kmerBuffer,
                     }
                     delete kseq;
                 }
+                size_t kmersWritten = kmerBuffer.startIndexOfReserve - posToWrite;
                 __sync_fetch_and_add(&processedBatchCnt, 1);
                 #pragma omp critical
                 {
+                    cerr << "BATCH_FILLTGT"
+                         << " batch=" << batchIdx
+                         << " file=" << accessionBatches[batchIdx].whichFasta
+                         << " seqs=" << accessionBatches[batchIdx].orders.size()
+                         << " species=" << accessionBatches[batchIdx].speciesID
+                         << " path=" << (fastaOffsets[accessionBatches[batchIdx].whichFasta].empty() ? "KSEQ" : "FSEEK")
+                         << " kmers=" << kmersWritten
+                         << "\n";
                     cout << processedBatchCnt << " batches processed out of " << accessionBatches.size() << endl;
                         // cout << fastaPaths[accessionBatches[batchIdx].whichFasta] << " processed\n";
                 }
